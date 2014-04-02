@@ -71,6 +71,7 @@ public class MMTServer extends TimerTask{
         }
         catch (IOException ioe)
         {
+            System.out.println("error in initiation");
             ioe.printStackTrace();
             System.exit(1);
         }
@@ -95,17 +96,12 @@ public class MMTServer extends TimerTask{
     
     public void broadcast(String message)
     {
-        //TODO: write this method: loop through all my clients and send the
-        //  the message.
-       
-        
-            for (PrintWriter pw : playerData.keySet())
-            {
-                pw.println(message);
-               // System.out.println(message);
-                pw.flush();
-            }
-        
+        for (PrintWriter pw : playerData.keySet())
+        {
+            pw.println(message);
+           // System.out.println(message);
+            pw.flush();
+        }
     }
     
     public void personalBroadcast(PrintWriter pw, String message)
@@ -154,6 +150,8 @@ public class ClientListener implements Runnable
             }
        catch (IOException ioe)
             {
+                
+                System.out.print("error in client listener: ");
                 ioe.printStackTrace();
             }
         
@@ -171,7 +169,7 @@ public class ClientListener implements Runnable
             {
                Player p = playerData.get(myPrintWriter);
                String[] part = message.split("\t");
-               System.out.println(part);
+               
                int id = Integer.parseInt(part[0]);
                int w  = Integer.parseInt(part[1]);
                int a  = Integer.parseInt(part[2]);
@@ -182,6 +180,8 @@ public class ClientListener implements Runnable
                p.x -= a;
                p.y += s;
                p.x += d;
+               
+               System.out.println("I tried to move him cap'n! Id "+id+" tried to send w:"+w+" a:"+a+" s:"+s+" d:"+d);
             }
         }
 
@@ -190,7 +190,7 @@ public class ClientListener implements Runnable
             // the client disconnected.
             clientPrintWriters.remove(myPrintWriter);
             playerData.remove(myPrintWriter);
-            broadcast(playerData.get(myPrintWriter).id+" has left the conversation.");
+//            broadcast(playerData.get(myPrintWriter).id+" has left the conversation.");
 
         }
         
