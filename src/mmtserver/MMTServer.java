@@ -137,7 +137,12 @@ public class ClientListener implements Runnable
                 myId++;
                 myX=(int)(screenWidth*Math.random());
                 myY=(int)(screenHeight*Math.random());
-                isIt = 0;
+                System.out.println(playerData.size());
+                if(playerData.size()==0)
+                    isIt = 1;
+                else
+                    isIt=0;
+                
                 Player p = new Player(myId, myX, myY, isIt);
                 
                 playerData.put(pw, p);
@@ -181,15 +186,17 @@ public class ClientListener implements Runnable
                p.y += s;
                p.x += d;
                
-               System.out.println("I tried to move him cap'n! Id "+id+" tried to send w:"+w+" a:"+a+" s:"+s+" d:"+d);
+               //System.out.println("I tried to move him cap'n! Id "+id+" tried to send w:"+w+" a:"+a+" s:"+s+" d:"+d);
             }
         }
 
         catch (NoSuchElementException nsee)
         {
             // the client disconnected.
+            System.out.println(playerData.get(myPrintWriter).id+" has left the server");
             clientPrintWriters.remove(myPrintWriter);
             playerData.remove(myPrintWriter);
+            
 //            broadcast(playerData.get(myPrintWriter).id+" has left the conversation.");
 
         }
