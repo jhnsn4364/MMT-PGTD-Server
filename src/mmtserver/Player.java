@@ -51,6 +51,14 @@ public class Player
         return ""+id+"\t"+x+"\t"+y+"\t"+isIt;
     }
     
+    public boolean getIsIt()
+    {
+     if(this.isIt==0)
+         return false;
+     else
+         return true;
+    }
+    
     public double distanceTo(int x,int y)
     {
         double xForDist = Math.pow(this.getX()-x, 2);
