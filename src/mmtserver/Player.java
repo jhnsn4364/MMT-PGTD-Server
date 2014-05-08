@@ -28,6 +28,16 @@ public class Player
         this.x = x;
     }
 
+    public int getX()
+    {
+        return this.x;
+    }
+    
+    public int getY()
+    {
+        return this.y;
+    }
+    
     public void setY(int y) {
         this.y = y;
     }
@@ -39,5 +49,13 @@ public class Player
     public String toString()
     {
         return ""+id+"\t"+x+"\t"+y+"\t"+isIt;
+    }
+    
+    public double distanceTo(int x,int y)
+    {
+        double xForDist = Math.pow(this.getX()-x, 2);
+        double yForDist = Math.pow(this.getY()-y, 2);
+        return Math.sqrt(yForDist+xForDist);
+        
     }
 }
