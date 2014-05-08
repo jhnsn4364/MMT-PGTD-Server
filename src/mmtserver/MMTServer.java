@@ -186,6 +186,28 @@ public class ClientListener implements Runnable
                p.y += s;
                p.x += d;
                
+               for(Player player:playerData.values())
+               {
+                   for(Player otherPlayers:playerData.values())
+                   {
+                       if(!player.equals(otherPlayers)&&player.distanceTo(otherPlayers.getX(), otherPlayers.getY())<20&&(player.getIsIt()||otherPlayers.getIsIt()))
+                       {
+                           if(player.getIsIt())
+                           {
+                               player.setIsIt(0);
+                               otherPlayers.setIsIt(1);
+                           }
+                           else{
+                               player.setIsIt(1);
+                               otherPlayers.setIsIt(0); 
+                           }
+                           
+                       }
+                       
+                   }
+                   
+               }
+               
                //System.out.println("I tried to move him cap'n! Id "+id+" tried to send w:"+w+" a:"+a+" s:"+s+" d:"+d);
             }
         }
