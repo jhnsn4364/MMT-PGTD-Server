@@ -31,7 +31,7 @@ public class Player
         return hasImmunity;
     }
     
-    public boolean setImmunityState(boolean state)
+    public void setImmunityState(boolean state)
     {
         hasImmunity=state;
     }
