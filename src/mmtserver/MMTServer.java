@@ -196,10 +196,12 @@ public class ClientListener implements Runnable
                            {
                                player.setIsIt(0);
                                otherPlayers.setIsIt(1);
+                               System.out.println("Someome was tagged");
                            }
                            else{
                                player.setIsIt(1);
                                otherPlayers.setIsIt(0); 
+                               System.out.println("Someome was tagged");
                            }
                            
                        }
