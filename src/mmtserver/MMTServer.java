@@ -185,7 +185,7 @@ public class ClientListener implements Runnable
                     p.setDelayCount(1);
                    
                 }
-                else if(p.getDelay()&&!p.getIsIt())
+                else if((p.getDelay()&&!p.getIsIt())||(p.getDelay()&&p.getDelayCount()>25))
                 {
                    p.setDelayState(false);
                 }
@@ -223,27 +223,30 @@ public class ClientListener implements Runnable
                {
                    for(Player otherPlayers:playerData.values())
                    {
-                       if(!player.equals(otherPlayers)&&player.distanceTo(otherPlayers.getX(), otherPlayers.getY())<20&&(player.getIsIt()||otherPlayers.getIsIt()))
-                       {
-                           if(player.getIsIt())
-                           {
-                               player.setIsIt(0);
-                               otherPlayers.setIsIt(1);
-                               System.out.println("someone was tagged");
-                               otherPlayers.setDelayState(true);
-                           }
-                           else{
-                               player.setIsIt(1);
-                               otherPlayers.setIsIt(0); 
-                               System.out.println("someone was tagged");
-                               player.setDelayState(true);
-                           }
+                        if((!player.equals(otherPlayers)&&player.distanceTo(otherPlayers.getX(), 
+                            otherPlayers.getY())<20&&(player.getIsIt()||otherPlayers.getIsIt())))
+                        {
+                            if(player.getIsIt())
+                            {
+                                player.setIsIt(0);
+                                otherPlayers.setIsIt(1);
+                                System.out.println("someone was tagged");
+                                otherPlayers.setDelayState(true);
+                                player.setImmunityState(true);
+                            }
+                            else{
+                                player.setIsIt(1);
+                                otherPlayers.setIsIt(0); 
+                                System.out.println("someone was tagged");
+                                player.setDelayState(true);
+                                otherPlayers.setImmunityState(true);
+                            }
                            
-                       }
+                        }
                        
-                   }
+                    }
                    
-               }
+                }
     }
     
     
