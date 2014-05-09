@@ -10,7 +10,8 @@ package mmtserver;
  */
 public class Player 
 {
-    public int id, x, y, isIt;
+    public int id, x, y, isIt, delayCount, immunityCount;
+    public boolean delay, hasImmunity;
     
     public Player(int newId, int newX, int newY, int newIsIt)
     {
@@ -18,12 +19,53 @@ public class Player
         x = newX;
         y = newY;
         isIt = newIsIt;
+        
     }
 
     public void setId(int id) {
         this.id = id;
     }
-
+    
+    public boolean getImmunityState()
+    {
+        return hasImmunity;
+    }
+    
+    public boolean setImmunityState(boolean state)
+    {
+        hasImmunity=state;
+    }
+    
+    public int getImmunityCount()
+    {
+        return immunityCount;
+    }
+    
+    public void setImmunityCount(int count)
+    {
+        immunityCount+=count;
+    }
+    public boolean getDelay()
+    {
+        return delay;
+    }
+    
+    public int getDelayCount()
+    {
+        return delayCount;
+    }        
+    
+    public void setDelayCount(int i)
+    {
+        delayCount+=i;   
+    }
+    
+    public void setDelayState(boolean count)
+    {
+        delay = count;
+        delayCount=0;
+    }
+    
     public void setX(int x) {
         this.x = x;
     }
