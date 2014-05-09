@@ -172,45 +172,35 @@ public class ClientListener implements Runnable
         {
             while ((message = myScanner.nextLine())!=null)
             {
-               Player p = playerData.get(myPrintWriter);
-               String[] part = message.split("\t");
+                Player p = playerData.get(myPrintWriter);
+                String[] part = message.split("\t");
                
-               int id = Integer.parseInt(part[0]);
-               int w  = Integer.parseInt(part[1]);
-               int a  = Integer.parseInt(part[2]);
-               int s  = Integer.parseInt(part[3]);
-               int d  = Integer.parseInt(part[4]);
-               
-               p.y -= w;
-               p.x -= a;
-               p.y += s;
-               p.x += d;
-               
-               for(Player player:playerData.values())
-               {
-                   for(Player otherPlayers:playerData.values())
-                   {
-                       if(!player.equals(otherPlayers)&&player.distanceTo(otherPlayers.getX(), otherPlayers.getY())<20&&(player.getIsIt()||otherPlayers.getIsIt()))
-                       {
-                           if(player.getIsIt())
-                           {
-                               player.setIsIt(0);
-                               otherPlayers.setIsIt(1);
-                               System.out.println("Someome was tagged");
-                           }
-                           else{
-                               player.setIsIt(1);
-                               otherPlayers.setIsIt(0); 
-                               System.out.println("Someome was tagged");
-                           }
-                           
-                       }
-                       
-                   }
+                int id = Integer.parseInt(part[0]);
+                int w  = Integer.parseInt(part[1]);
+                int a  = Integer.parseInt(part[2]);
+                int s  = Integer.parseInt(part[3]);
+                int d  = Integer.parseInt(part[4]);
+                if(p.getDelay()&&p.getIsIt())
+                {
+                    p.setDelayCount(1);
                    
-               }
+                }
+                else if(p.getDelay()&&!p.getIsIt())
+                {
+                   p.setDelayState(false);
+                }
+                else
+                {
+                    p.y -= w;
+                    p.x -= a;
+                    p.y += s;
+                    p.x += d;
+                }
                
-               //System.out.println("I tried to move him cap'n! Id "+id+" tried to send w:"+w+" a:"+a+" s:"+s+" d:"+d);
+               
+                dealWithTags();
+               
+                //System.out.println("I tried to move him cap'n! Id "+id+" tried to send w:"+w+" a:"+a+" s:"+s+" d:"+d);
             }
         }
 
@@ -226,6 +216,36 @@ public class ClientListener implements Runnable
         }
         
     }
+   
+    public void dealWithTags()
+    {
+        for(Player player:playerData.values())
+               {
+                   for(Player otherPlayers:playerData.values())
+                   {
+                       if(!player.equals(otherPlayers)&&player.distanceTo(otherPlayers.getX(), otherPlayers.getY())<20&&(player.getIsIt()||otherPlayers.getIsIt()))
+                       {
+                           if(player.getIsIt())
+                           {
+                               player.setIsIt(0);
+                               otherPlayers.setIsIt(1);
+                               System.out.println("someone was tagged");
+                               otherPlayers.setDelayState(true);
+                           }
+                           else{
+                               player.setIsIt(1);
+                               otherPlayers.setIsIt(0); 
+                               System.out.println("someone was tagged");
+                               player.setDelayState(true);
+                           }
+                           
+                       }
+                       
+                   }
+                   
+               }
+    }
+    
     
 //    dataForPlayers+=playerData.keySet().size();
 //                for(PrintWriter printer:playerData.keySet())
