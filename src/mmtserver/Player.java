@@ -19,7 +19,10 @@ public class Player
         x = newX;
         y = newY;
         isIt = newIsIt;
-        
+        hasImmunity=false;
+        delay=false;
+        immunityCount=0;
+        delayCount=0;
     }
 
     public void setId(int id) {
@@ -34,6 +37,7 @@ public class Player
     public void setImmunityState(boolean state)
     {
         hasImmunity=state;
+        immunityCount=0;
     }
     
     public int getImmunityCount()
