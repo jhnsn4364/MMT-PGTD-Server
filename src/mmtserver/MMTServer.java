@@ -180,12 +180,15 @@ public class ClientListener implements Runnable
                 int a  = Integer.parseInt(part[2]);
                 int s  = Integer.parseInt(part[3]);
                 int d  = Integer.parseInt(part[4]);
-                if(p.getDelay()&&p.getIsIt())
+                
+                if(p.getImmunityState()&&p.getImmunityCount()>300)
+                    p.setImmunityState(false);                
+                else if(p.getDelay()&&p.getIsIt())
                 {
                     p.setDelayCount(1);
                    
                 }
-                else if((p.getDelay()&&!p.getIsIt())||(p.getDelay()&&p.getDelayCount()>25))
+                else if((p.getDelay()&&!p.getIsIt())||(p.getDelay()&&p.getDelayCount()>300))
                 {
                    p.setDelayState(false);
                 }
@@ -197,6 +200,8 @@ public class ClientListener implements Runnable
                     p.x += d;
                 }
                
+                
+                
                
                 dealWithTags();
                
@@ -224,24 +229,33 @@ public class ClientListener implements Runnable
                    for(Player otherPlayers:playerData.values())
                    {
                         if((!player.equals(otherPlayers)&&player.distanceTo(otherPlayers.getX(), 
-                            otherPlayers.getY())<20&&(player.getIsIt()||otherPlayers.getIsIt())))
+                            otherPlayers.getY())<20&&(player.getIsIt()||otherPlayers.getIsIt()))&&(!player.getImmunityState()&&!otherPlayers.getImmunityState()))
                         {
                             if(player.getIsIt())
                             {
                                 player.setIsIt(0);
                                 otherPlayers.setIsIt(1);
-                                System.out.println("someone was tagged");
-                                otherPlayers.setDelayState(true);
+                                //System.out.println("someone was tagged");
                                 player.setImmunityState(true);
+                                otherPlayers.setDelayState(true);
+                                
                             }
                             else{
                                 player.setIsIt(1);
                                 otherPlayers.setIsIt(0); 
-                                System.out.println("someone was tagged");
-                                player.setDelayState(true);
+                                //System.out.println("someone was tagged");
                                 otherPlayers.setImmunityState(true);
+                                player.setDelayState(true);
+                                
                             }
                            
+                        }
+                        else if(player.getImmunityState()||otherPlayers.getImmunityState())
+                        {
+                            if(player.getImmunityState())
+                                player.setImmunityCount(1);
+                            else
+                                otherPlayers.setImmunityCount(1);
                         }
                        
                     }
@@ -249,14 +263,6 @@ public class ClientListener implements Runnable
                 }
     }
     
-    
-//    dataForPlayers+=playerData.keySet().size();
-//                for(PrintWriter printer:playerData.keySet())
-//                {
-//                    dataForPlayers+=playerData.get(printer);
-//                    
-//                }
-
 }
     
 }
